@@ -2,90 +2,207 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Объявления</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mavri — объявления</title>
+    <style>
+        :root {
+            --primary: #1976ff;
+            --primary-dark: #1257c9;
+            --bg-page: #f4f5f8;
+            --bg-card: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --radius-lg: 16px;
+            --shadow-card: 0 18px 45px rgba(15, 23, 42, 0.12);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-page);
+            color: var(--text-main);
+        }
+
+        .page {
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 12px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .topbar-nav {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            border-radius: 999px;
+            padding: 10px 22px;
+            font-size: 14px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .nav-btn--ghost {
+            border-color: var(--border);
+            background: #ffffff;
+            color: var(--text-main);
+        }
+
+        .nav-btn--active {
+            border-color: rgba(25, 118, 255, 0.15);
+            background: rgba(25, 118, 255, 0.06);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .nav-btn--primary {
+            background: var(--primary);
+            color: #ffffff;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .nav-btn--primary:hover { background: var(--primary-dark); }
+
+        .content {
+            max-width: 900px;
+            margin: 20px auto 40px;
+            padding: 0 12px 32px;
+        }
+
+        .ad-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .ad-card__image {
+            height: 190px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ad-card__gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 45%, #f97316 100%);
+        }
+
+        .ad-card__icon {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 54px;
+        }
+
+        .ad-card__body {
+            padding: 20px 24px 22px;
+        }
+
+        .ad-card__title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .ad-card__price {
+            margin-top: 4px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .ad-card__meta {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .ad-card__divider {
+            margin-top: 18px;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .ad-card__footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .ad-card__btn {
+            border-radius: 999px;
+            padding: 8px 18px;
+            font-size: 13px;
+            border: 1px solid var(--border);
+            background: #ffffff;
+            cursor: pointer;
+        }
+
+        @media (max-width: 480px) {
+            .ad-card__body { padding: 16px 18px 18px; }
+            .ad-card__title { font-size: 18px; }
+        }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- HEADER -->
-        <header class="app-header">
-            <div class="header-content">
-                <h1 class="app-title">Объявления</h1>
-                <a href="/add" class="btn-add">
-                    <span class="btn-add-icon">+</span>
-                    <span class="btn-add-text">Добавить</span>
-                </a>
-            </div>
-        </header>
+<div class="page">
+    <header class="topbar">
+        <nav class="topbar-nav">
+            <button class="nav-btn nav-btn--ghost nav-btn--active">Обзор</button>
+            <button class="nav-btn nav-btn--ghost">Мои объявления</button>
+            <a href="/add" class="nav-btn nav-btn--primary">+ Создать</a>
+        </nav>
+    </header>
 
-        <!-- MAIN CONTENT -->
-        <main class="app-main">
-            {% if tovari %}
-                <div class="listings-grid">
-                    {% for tovar in tovari %}
-                        <div class="listing-item">
-                            <div class="listing-image">
-                                <div class="image-placeholder">
-                                    {% if tovar.category %}
-                                        <span class="category-label">{{ tovar.category }}</span>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            
-                            <div class="listing-body">
-                                <h2 class="listing-title">{{ tovar.tovar_nm }}</h2>
-                                
-                                {% if tovar.opisanie %}
-                                    <p class="listing-description">{{ tovar.opisanie }}</p>
-                                {% endif %}
-                                
-                                <div class="listing-price">
-                                    <span class="price-value">{{ tovar.price | int }}</span>
-                                    <span class="price-currency">₽</span>
-                                </div>
-                                
-                                <div class="listing-meta">
-                                    {% if tovar.kolvo %}
-                                        <span class="meta-item">
-                                            <span class="meta-label">В наличии:</span>
-                                            <span class="meta-value">{{ tovar.kolvo }} шт.</span>
-                                        </span>
-                                    {% endif %}
-                                    
-                                    {% if tovar.gorod %}
-                                        <span class="meta-item">
-                                            <span class="meta-icon">📍</span>
-                                            <span class="meta-value">{{ tovar.gorod }}</span>
-                                        </span>
-                                    {% endif %}
-                                </div>
-                                
-                                <div class="listing-footer">
-                                    <span class="time-ago">
-                                        {% if 'created_at' in tovar %}
-                                            {{ tovar['created_at'] }}
-                                        {% else %}
-                                            Недавно
-                                        {% endif %}
-                                    </span>
-                                    <button class="btn-action">Подробнее →</button>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
+    <main class="content">
+        {% for tovar in tovari %}
+        <article class="ad-card">
+            <div class="ad-card__image">
+                <div class="ad-card__gradient"></div>
+                <div class="ad-card__icon">🛋️</div>
+            </div>
+            <div class="ad-card__body">
+                <h2 class="ad-card__title">{{ tovar.tovar_nm }}</h2>
+                <div class="ad-card__price">{{ tovar.price|int }} ₽</div>
+
+                <div class="ad-card__meta">
+                    <span>📍 {{ tovar.gorod or "Город" }}</span>
                 </div>
-            {% else %}
-                <div class="empty-state">
-                    <div class="empty-icon">📋</div>
-                    <h2>Объявлений нет</h2>
-                    <p>Станьте первым, кто добавит объявление</p>
-                    <a href="/add" class="btn-primary">Добавить первое объявление</a>
+
+                <div class="ad-card__divider"></div>
+
+                <div class="ad-card__footer">
+                    <span>Недавно</span>
+                    <button class="ad-card__btn">Подробнее →</button>
                 </div>
-            {% endif %}
-        </main>
-    </div>
+            </div>
+        </article>
+        {% endfor %}
+    </main>
+</div>
 </body>
 </html>
