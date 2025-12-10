@@ -65,8 +65,8 @@
                                 
                                 <div class="listing-footer">
                                     <span class="time-ago">
-                                        {% if tovar.get('created_at') %}
-                                            {{ tovar.created_at }}
+                                        {% if 'created_at' in tovar %}
+                                            {{ tovar['created_at'] }}
                                         {% else %}
                                             Недавно
                                         {% endif %}
