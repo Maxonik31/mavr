@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Добавить объявление</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="header-content">
+                <a href="/" class="btn-back">← Назад</a>
+                <h1 class="app-title">Добавить объявление</h1>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main class="app-main">
+            <!-- ALERTS -->
+            {% if success %}
+                <div class="alert alert-success">
+                    <span class="alert-icon">✓</span>
+                    <span class="alert-text">Объявление успешно добавлено!</span>
+                </div>
+            {% endif %}
+
+            {% if error %}
+                <div class="alert alert-error">
+                    <span class="alert-icon">✕</span>
+                    <span class="alert-text">{{ error }}</span>
+                </div>
+            {% endif %}
+
+            <!-- FORM -->
+            <form method="POST" class="add-form">
+                <!-- Раздел: Информация -->
+                <div class="form-section">
+                    <h2 class="section-title">Информация о товаре</h2>
+                    
+                    <div class="form-group">
+                        <label for="tovar_nm" class="form-label">
+                            Название <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="tovar_nm" 
+                            name="tovar_nm" 
+                            class="form-input"
+                            placeholder="Например: iPhone 13 Pro"
+                            required
+                            maxlength="100"
+                        >
+                        <small class="form-hint">Привлекательное название поможет быстро найти товар</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="opisanie" class="form-label">
+                            Описание
+                        </label>
+                        <textarea 
+                            id="opisanie" 
+                            name="opisanie" 
+                            class="form-textarea"
+                            placeholder="Подробное описание товара, его состояние, характеристики..."
+                            rows="4"
+                            maxlength="500"
+                        ></textarea>
+                        <small class="form-hint">Подробное описание увеличивает шансы на продажу</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category" class="form-label">
+                            Категория
+                        </label>
+                        <select id="category" name="category" class="form-select">
+                            <option value="">Выберите категорию</option>
+                            <option value="Электроника">📱 Электроника</option>
+                            <option value="Мебель">🛋️ Мебель</option>
+                            <option value="Одежда">👕 Одежда</option>
+                            <option value="Авто">🚗 Авто</option>
+                            <option value="Недвижимость">🏠 Недвижимость</option>
+                            <option value="Услуги">💼 Услуги</option>
+                            <option value="Другое">📦 Другое</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Раздел: Цена и количество -->
+                <div class="form-section">
+                    <h2 class="section-title">Цена и наличие</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="price" class="form-label">
+                                Цена (₽) <span class="required">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input 
+                                    type="number" 
+                                    id="price" 
+                                    name="price" 
+                                    class="form-input"
+                                    placeholder="0"
+                                    step="1"
+                                    min="0"
+                                    required
+                                >
+                                <span class="input-suffix">₽</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kolvo" class="form-label">
+                                Количество (шт.)
+                            </label>
+                            <input 
+                                type="number" 
+                                id="kolvo" 
+                                name="kolvo" 
+                                class="form-input"
+                                placeholder="1"
+                                min="1"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Раздел: Местоположение -->
+                <div class="form-section">
+                    <h2 class="section-title">Местоположение</h2>
+                    
+                    <div class="form-group">
+                        <label for="gorod" class="form-label">
+                            Город <span class="required">*</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">📍</span>
+                            <input 
+                                type="text" 
+                                id="gorod" 
+                                name="gorod" 
+                                class="form-input"
+                                placeholder="Москва"
+                                required
+                                maxlength="50"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кнопки действия -->
+                <div class="form-actions">
+                    <a href="/" class="btn btn-secondary">
+                        Отмена
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        Опубликовать объявление
+                    </button>
+                </div>
+
+                <p class="form-footer-text">
+                    <span class="required">*</span> Обязательные поля
+                </p>
+            </form>
+        </main>
+    </div>
+</body>
+</html>

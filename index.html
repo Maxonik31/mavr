@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Объявления</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">Объявления</h1>
+                <a href="/add" class="btn-add">
+                    <span class="btn-add-icon">+</span>
+                    <span class="btn-add-text">Добавить</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main class="app-main">
+            {% if tovari %}
+                <div class="listings-grid">
+                    {% for tovar in tovari %}
+                        <div class="listing-item">
+                            <div class="listing-image">
+                                <div class="image-placeholder">
+                                    {% if tovar.category %}
+                                        <span class="category-label">{{ tovar.category }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="listing-body">
+                                <h2 class="listing-title">{{ tovar.tovar_nm }}</h2>
+                                
+                                {% if tovar.opisanie %}
+                                    <p class="listing-description">{{ tovar.opisanie }}</p>
+                                {% endif %}
+                                
+                                <div class="listing-price">
+                                    <span class="price-value">{{ tovar.price | int }}</span>
+                                    <span class="price-currency">₽</span>
+                                </div>
+                                
+                                <div class="listing-meta">
+                                    {% if tovar.kolvo %}
+                                        <span class="meta-item">
+                                            <span class="meta-label">В наличии:</span>
+                                            <span class="meta-value">{{ tovar.kolvo }} шт.</span>
+                                        </span>
+                                    {% endif %}
+                                    
+                                    {% if tovar.gorod %}
+                                        <span class="meta-item">
+                                            <span class="meta-icon">📍</span>
+                                            <span class="meta-value">{{ tovar.gorod }}</span>
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="listing-footer">
+                                    <span class="time-ago">
+                                        {% if tovar.get('created_at') %}
+                                            {{ tovar.created_at }}
+                                        {% else %}
+                                            Недавно
+                                        {% endif %}
+                                    </span>
+                                    <button class="btn-action">Подробнее →</button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">📋</div>
+                    <h2>Объявлений нет</h2>
+                    <p>Станьте первым, кто добавит объявление</p>
+                    <a href="/add" class="btn-primary">Добавить первое объявление</a>
+                </div>
+            {% endif %}
+        </main>
+    </div>
+</body>
+</html>
